@@ -23,4 +23,19 @@ app.get("/users", (req, res) => {
   });
 });
 
+//Step 1: Set up a new route to /users/:id/edit
+
+app.get("/users/:id/edit", (req, res) => {
+  //Step 3 (Bonus): Make request to api /persons/:id
+  request({
+    method: "GET",
+    uri: `http://myapi-profstream.herokuapp.com/api/5c1770/persons/${req.params.id}`
+  }, (err, response, body) => {
+    //Step 2: Render the edit.html file as an EJS template (change extension)
+    res.render("edit", {
+      user: JSON.parse(body)
+    });
+  });
+});
+
 app.listen(3000);
