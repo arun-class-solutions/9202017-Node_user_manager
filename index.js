@@ -9,6 +9,11 @@ const request = require("request");
 
 app.set("view engine", "ejs");
 
+// Body parser configuration
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
 // Step 2: Create a route for /users
 
 app.get("/users", (req, res) => {
@@ -35,6 +40,16 @@ app.get("/users/:id/edit", (req, res) => {
     res.render("edit", {
       user: JSON.parse(body)
     });
+  });
+});
+
+app.post("/users", (req, res) => {
+  request({
+    method: "POST",
+    uri: "http://myapi-profstream.herokuapp.com/api/5c1770/persons",
+    json: req.body.user
+  }, (err, response, body) => {
+    res.redirect("/users");
   });
 });
 
